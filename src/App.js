@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import list from './generation1.json';
 import { Card } from 'antd';
+import { getSprite } from 'pokemon-images';
 
-function printName(element) {
+function Tile({ name }) {
   return(
-    <Card title={element.name} style={{ width: 300 }}>
-      <p>{element.name}</p>
+    <Card title={name} style={{ width: 300 }}>
+      <img src={getSprite(name)} alt={name}/>
     </Card>
   );
 }
@@ -16,7 +16,9 @@ class App extends Component {
   render() {
     return (
       <div>
-        {list.pokemon_species.map(printName)}
+        {list.pokemon_species.map( (pokemon) => {
+          return <Tile name={pokemon.name} />
+        }) }
       </div>
     );
   }
