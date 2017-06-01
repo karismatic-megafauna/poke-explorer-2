@@ -4,11 +4,12 @@ import { Card } from 'antd';
 
 function Tile({ name }) {
   return(
-    <Card title={name} style={{ width: 300 }}>
+    <Card title={name} style={{ width: 300, margin:'10px' }} bodyStyle={{display:'flex', justifyContent:'center'}}>
       <img src={getSprite(name)} alt={name}/>
     </Card>
   );
 }
+
 Tile.propTypes = {
   name: React.PropTypes.string,
 }
