@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './App.css';
-import list from './generation1.json';
 import Tile from './Tile';
 import { Input } from 'antd';
 const Search = Input.Search;
@@ -10,7 +9,18 @@ class App extends Component {
     super(props);
     this.state = {
       searchTerm: "",
+      pokemon: [],
     }
+  }
+
+  componentWillMount() {
+    fetch(`https://pokeapi.co/api/v2/generation/1/`)
+      .then((response) => {
+        response.json()
+          .then((data) => {
+            this.setState({pokemon: data.pokemon_species})
+          })
+      })
   }
 
   matchesSearch = (pokemon) => {
@@ -32,8 +42,12 @@ class App extends Component {
             this.setState({searchTerm: e.target.value})}
           }
         />
-      <div style={{display:'flex',flexWrap: 'wrap', justifyContent: 'center'}}>
-          { list.pokemon_species.filter(this.matchesSearch).map(this.renderTile) }
+        <div style={{display:'flex',flexWrap: 'wrap', justifyContent: 'center'}}>
+          {
+            this.state.pokemon
+              .filter(this.matchesSearch)
+              .map(this.renderTile)
+          }
         </div>
       </div>
     );
