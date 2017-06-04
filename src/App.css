@@ -1,26 +1,29 @@
 @import '~antd/dist/antd.css';
 
 .App {
-  text-align: center;
+  height: 100vh;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+.Body {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
+.SearchBar {
+  padding: 10px;
 }
 
-.App-intro {
-  font-size: large;
+/* Collapsed Sidebar Styles */
+.ant-layout-sider-collapsed .anticon {
+  font-size: 16px;
+  margin-left: 8px;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.ant-layout-sider-collapsed .nav-text {
+  display: none;
+}
+
+.ant-layout-sider-collapsed .ant-menu-submenu-vertical > .ant-menu-submenu-title:after {
+  display: none;
 }
