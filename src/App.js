@@ -3,9 +3,8 @@ import './App.css';
 import Tile from './Tile';
 import { Input, Layout, Menu, Icon } from 'antd';
 import metadata from 'pokemon-metadata';
-const { Header, Sider, Content } = Layout;
+const { Sider, Content } = Layout;
 const Search = Input.Search;
-const SubMenu = Menu.SubMenu;
 
 class App extends Component {
   constructor(props){
@@ -15,6 +14,7 @@ class App extends Component {
       pokemon: [],
       collapsed: false,
       mode: 'inline',
+      statSort: 'speed',
     }
   }
 
@@ -32,16 +32,25 @@ class App extends Component {
     return metadata[a.name].id - metadata[b.name].id
   }
 
+  sortByStat = (stat) => (a, b) => {
+    const first = metadata[a.name].stats.find(s => s.stat.name === stat)
+    const second = metadata[b.name].stats.find(s => s.stat.name === stat)
+    return second.base_stat - first.base_stat;
+  }
+
   matchesSearch = (pokemon) => {
     return pokemon.name.includes(this.state.searchTerm)
   }
 
   renderTile = (pokemon) => {
-    return <Tile name={pokemon.name} />
+    return <Tile name={pokemon.name} key={pokemon.name} />
+  }
+
+  handleMenuClick = ({ item }) => {
+    this.setState({ statSort: item.props.name });
   }
 
   onCollapse = (collapsed) => {
-    console.log(collapsed);
     this.setState({
       collapsed,
       mode: collapsed ? 'vertical' : 'inline',
@@ -69,13 +78,51 @@ class App extends Component {
           <Menu
             theme="dark"
             mode={this.state.mode}
+            defaultSelectedKeys={['0']}
+            onClick={this.handleMenuClick}
           >
-            <Menu.Item key="6">
+            <Menu.Item key={0} name="speed">
               <span>
-                <Icon type="file" />
-                <span className="nav-text">File</span>
+                <Icon type="double-right" />
+                <span className="nav-text">Speed</span>
               </span>
             </Menu.Item>
+
+            <Menu.Item key={1} name="special-defense">
+              <span>
+                <Icon type="star-o" />
+                <span className="nav-text">Special Defense</span>
+              </span>
+            </Menu.Item>
+
+            <Menu.Item key={2} name="special-attack">
+              <span>
+                <Icon type="star" />
+                <span className="nav-text">Special Attack</span>
+              </span>
+            </Menu.Item>
+
+            <Menu.Item key={3} name="defense">
+              <span>
+                <Icon type="safety" />
+                <span className="nav-text">Defense</span>
+              </span>
+            </Menu.Item>
+
+            <Menu.Item key={4} name="attack">
+              <span>
+                <Icon type="rocket" />
+                <span className="nav-text">Attack</span>
+              </span>
+            </Menu.Item>
+
+            <Menu.Item key={5} name="hp">
+              <span>
+                <Icon type="heart-o" />
+                <span className="nav-text">Hit Points</span>
+              </span>
+            </Menu.Item>
+
           </Menu>
         </Sider>
         <Layout>
@@ -84,7 +131,7 @@ class App extends Component {
               {
                 this.state.pokemon
                   .filter(this.matchesSearch)
-                  .sort(this.sortById)
+                  .sort(this.sortByStat(this.state.statSort))
                   .map(this.renderTile)
               }
             </div>
