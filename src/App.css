@@ -28,6 +28,10 @@
   display: none;
 }
 
+.ant-menu.ant-menu-dark .ant-menu-item.ant-menu-item-selected {
+  background-color: rgb(16, 142, 233);
+}
+
 .ant-layout-sider-collapsed .SearchBar {
   visibility: hidden;
 }
