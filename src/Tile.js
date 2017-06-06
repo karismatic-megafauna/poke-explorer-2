@@ -59,7 +59,8 @@ class Tile extends React.Component {
           />
           <div style={{width: '50%'}}>
             { metadata[name].stats.map((stat) => {
-              const relativeStats = map(stat.base_stat, 0, 251, 0, 100);
+
+              const relativeStats = map(stat.base_stat, 0, 250, 0, 100);
               return (
                 <div
                   key={stat.stat.name}
