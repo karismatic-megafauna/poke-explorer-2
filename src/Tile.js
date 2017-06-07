@@ -5,23 +5,27 @@ import pokemonMetadata from 'pokemon-metadata';
 import { Progress } from 'antd';
 
 function capitalize(statName) {
-  statName.split('-').map((s) => {
+  statName = statName.toLowerCase().replace(/\b[a-z]/g, function(letter) {
+    return letter.toUpperCase();
+  });
 
-  })
+  statName = statName.replace(/-/g, ' ');
+
+  return statName;
 }
 
 function Tile({ name }) {
-  const {stats} = pokemonMetadata[name]
+  const {stats, id} = pokemonMetadata[name]
   const statBars = stats.map((stat) =>
     <div>
-      <span>{`${stat.stat.name}: ${stat.base_stat}`}</span>
+      <span>{`${capitalize(stat.stat.name)}: ${stat.base_stat}`}</span>
       <Progress percent={stat.base_stat/500*100} strokeWidth={5} showInfo={false}/>
     </div>
   )
 
-  // debugger
+
   return(
-    <Card title={name} style={{ width: 500, margin:'10px' }} bodyStyle={{display:'flex', justifyContent:'center'}}>
+    <Card title={capitalize(name)} extra={id} style={{ width: 500, margin:'10px' }} bodyStyle={{display:'flex', justifyContent:'center'}}>
       <div style={{ width: '100%', display: 'flex' }}>
         <img src={getSprite(name)} alt={name} style={{ width: '50%' }}/>
         <div style={{ display: 'flex', flexDirection: 'column', width: '50%' }}>
