@@ -23,7 +23,6 @@ function Tile({ name }) {
     </div>
   )
 
-
   return(
     <Card title={capitalize(name)} extra={id} style={{ width: 500, margin:'10px' }} bodyStyle={{display:'flex', justifyContent:'center'}}>
       <div style={{ width: '100%', display: 'flex' }}>
@@ -38,6 +37,7 @@ function Tile({ name }) {
 
 Tile.propTypes = {
   name: React.PropTypes.string,
+  
 }
 
 Tile.defaultProps = {
