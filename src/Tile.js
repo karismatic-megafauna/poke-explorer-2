@@ -1,7 +1,6 @@
 import React from 'react';
 import { getSprite } from 'pokemon-images';
 import { Card } from 'antd';
-import pokemonMetadata from 'pokemon-metadata';
 import { Progress } from 'antd';
 
 function capitalize(statName) {
@@ -14,8 +13,8 @@ function capitalize(statName) {
   return statName;
 }
 
-function Tile({ name }) {
-  const {stats, id} = pokemonMetadata[name]
+function Tile({ name, meta }) {
+  const {stats, id} = meta
   const statBars = stats.map((stat) =>
     <div>
       <span>{`${capitalize(stat.stat.name)}: ${stat.base_stat}`}</span>
@@ -37,7 +36,7 @@ function Tile({ name }) {
 
 Tile.propTypes = {
   name: React.PropTypes.string,
-  
+
 }
 
 Tile.defaultProps = {

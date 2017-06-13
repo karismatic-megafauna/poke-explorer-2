@@ -2,20 +2,22 @@ import React, { Component } from 'react';
 import './App.css';
 import Tile from './Tile';
 import { Input, Menu, Icon } from 'antd';
+import pokemonMetadata from 'pokemon-metadata';
 const Search = Input.Search;
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 
 function handleClick(e) {
-
+  console.log('click', e);
 }
+
 
 class App extends Component {
   constructor(props){
     super(props);
     this.state = {
       searchTerm: "",
-      sortBy: "",
+      sortBy: "attack",
       pokemon: [],
     }
   }
@@ -34,12 +36,13 @@ class App extends Component {
     return pokemon.name.includes(this.state.searchTerm)
   }
 
-  renderTile = (pokemon) => {
-    return <Tile name={pokemon.name} />
+  compare = (t1, t2) => {
+    console.log(pokemonMetadata[t1.name]);
+    return t1.attack-t2.attack;
   }
 
-  compare = ( p1 , p2 ) => {
-    console.log(p1)
+  renderTile = (pokemon) => {
+    return <Tile name={pokemon.name} meta={pokemonMetadata[pokemon.name]} />
   }
 
   render() {
@@ -97,8 +100,8 @@ class App extends Component {
           {
             this.state.pokemon
               .filter(this.matchesSearch)
-              .map(this.renderTile)
               .sort(this.compare)
+              .map(this.renderTile)
           }
         </div>
       </div>
