@@ -7,17 +7,13 @@ const Search = Input.Search;
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 
-function handleClick(e) {
-  console.log('click', e);
-}
-
 
 class App extends Component {
   constructor(props){
     super(props);
     this.state = {
       searchTerm: "",
-      sortBy: "attack",
+      sortBy: 0,
       pokemon: [],
     }
   }
@@ -32,64 +28,70 @@ class App extends Component {
       })
   }
 
+  handleClick = (e) => {
+    this.setState({sortBy: e.key});
+  }
+
   matchesSearch = (pokemon) => {
     return pokemon.name.includes(this.state.searchTerm)
   }
 
-  compare = (t1, t2) => {
-    console.log(pokemonMetadata[t1.name]);
-    return t1.attack-t2.attack;
+  compare = (p1, p2) => {
+    var pokemon1 = pokemonMetadata[p1.name];
+    var pokemon2 = pokemonMetadata[p2.name];
+    return pokemon2.stats[this.state.sortBy].base_stat - pokemon1.stats[this.state.sortBy].base_stat;
   }
 
-  renderTile = (pokemon) => {
-    return <Tile name={pokemon.name} meta={pokemonMetadata[pokemon.name]} />
+  renderTile = (pokemon, index) => {
+    console.log(pokemonMetadata[pokemon.name]);
+    return <Tile key={index} name={pokemon.name} meta={pokemonMetadata[pokemon.name]} />
   }
 
   render() {
     return (
       <div style={{display:'flex', flexDirection: 'row'}}>
-        <Menu onClick={handleClick} theme='dark' style={{ width: 240 }} mode="vertical">
-          <Menu.Item key="1">
+        <Menu onClick={this.handleClick} theme='dark' style={{ width: 240 }} mode="vertical">
+          <Menu.Item key="search">
             <Search
-            placeholder="input search text"
-            style={{ width: 200 }}
-            onSearch={value => this.setState({searchTerm: value})}
-            onChange={e =>{
-              this.setState({searchTerm: e.target.value})}
-            }
+              placeholder="input search text"
+              style={{ width: 200 }}
+              onSearch={value => this.setState({searchTerm: value})}
+              onChange={e =>{
+                this.setState({searchTerm: e.target.value})}
+              }
             />
           </Menu.Item>
-          <Menu.Item key="2">
+          <Menu.Item key="0">
             <div>
               <Icon type="double-right" />
               Speed
             </div>
           </Menu.Item>
-          <Menu.Item key="3">
+          <Menu.Item key="1">
             <div>
               <Icon type="star-o" />
               Special Defense
             </div>
           </Menu.Item>
-          <Menu.Item key="4">
+          <Menu.Item key="2">
             <div>
               <Icon type="star" />
               Special Attack
             </div>
           </Menu.Item>
-          <Menu.Item key="5">
+          <Menu.Item key="3">
             <div>
               <Icon type="safety" />
               Defense
             </div>
           </Menu.Item>
-          <Menu.Item key="6">
+          <Menu.Item key="4">
             <div>
               <Icon type="rocket" />
               Attack
             </div>
           </Menu.Item>
-          <Menu.Item key="7">
+          <Menu.Item key="5">
             <div>
               <Icon type="heart-o" />
               Hit Points
