@@ -4,8 +4,6 @@ import Tile from './Tile';
 import { Input, Menu, Icon } from 'antd';
 import pokemonMetadata from 'pokemon-metadata';
 const Search = Input.Search;
-const SubMenu = Menu.SubMenu;
-const MenuItemGroup = Menu.ItemGroup;
 
 
 class App extends Component {
@@ -29,7 +27,10 @@ class App extends Component {
   }
 
   handleClick = (e) => {
-    this.setState({sortBy: e.key});
+    console.log(typeof e.key)
+    if(Number(e.key)) {
+      this.setState({sortBy: e.key});
+    }
   }
 
   matchesSearch = (pokemon) => {
