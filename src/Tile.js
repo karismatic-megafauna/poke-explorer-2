@@ -20,7 +20,7 @@ class Tile extends Component {
     }
   }
 
-  handleClick = (e) => {
+  handleMouseOver = (e) => {
     if(this.state.sprite === 'front_default') {
       this.setState({ sprite: 'front_shiny' });
     } else {
@@ -45,7 +45,7 @@ class Tile extends Component {
     return(
       <Card title={capitalize(name)} extra={id} style={{ width: 500, margin:'10px' }} bodyStyle={{display:'flex', justifyContent:'center'}}>
         <div style={{ width: '100%', display: 'flex' }}>
-          <img src={sprites[this.state.sprite]} alt={name} onClick={this.handleClick} style={{ width: '50%' }}/>
+          <img src={sprites[this.state.sprite]} alt={name} onMouseOver={this.handleMouseOver} onMouseLeave={this.handleMouseOver} style={{ width: '50%' }}/>
           <div style={{ display: 'flex', flexDirection: 'column', width: '50%' }}>
             {this.buildStatBars(meta)}
           </div>
