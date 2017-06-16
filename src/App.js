@@ -27,7 +27,6 @@ class App extends Component {
   }
 
   handleClick = (e) => {
-    console.log(typeof e.key)
     if(Number(e.key)) {
       this.setState({sortBy: e.key});
     }
@@ -44,7 +43,6 @@ class App extends Component {
   }
 
   renderTile = (pokemon, index) => {
-    console.log(pokemonMetadata[pokemon.name]);
     return <Tile key={index} name={pokemon.name} meta={pokemonMetadata[pokemon.name]} />
   }
 

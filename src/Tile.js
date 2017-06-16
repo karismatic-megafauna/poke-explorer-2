@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Card } from 'antd';
 import { Progress } from 'antd';
+import { Link } from 'react-router-dom';
 
 function capitalize(statName) {
   statName = statName.toLowerCase().replace(/\b[a-z]/g, function(letter) {
@@ -26,7 +27,6 @@ class Tile extends Component {
     } else {
       this.setState({ sprite: 'front_default' });
     }
-    console.log(this.state.sprite)
   }
 
   buildStatBars({ stats }) {
@@ -43,14 +43,16 @@ class Tile extends Component {
     const { meta, name} = this.props
     const { sprites, id } = meta
     return(
-      <Card title={capitalize(name)} extra={id} style={{ width: 500, margin:'10px' }} bodyStyle={{display:'flex', justifyContent:'center'}}>
-        <div style={{ width: '100%', display: 'flex' }}>
-          <img src={sprites[this.state.sprite]} alt={name} onMouseOver={this.handleMouseOver} onMouseLeave={this.handleMouseOver} style={{ width: '50%' }}/>
-          <div style={{ display: 'flex', flexDirection: 'column', width: '50%' }}>
-            {this.buildStatBars(meta)}
+      <Link to={`/show/${name}`} >
+        <Card title={capitalize(name)} extra={id} style={{ width: 500, margin:'10px' }} bodyStyle={{display:'flex', justifyContent:'center'}}>
+          <div style={{ width: '100%', display: 'flex' }}>
+            <img src={sprites[this.state.sprite]} alt={name} onMouseOver={this.handleMouseOver} onMouseLeave={this.handleMouseOver} style={{ width: '50%' }}/>
+            <div style={{ display: 'flex', flexDirection: 'column', width: '50%' }}>
+              {this.buildStatBars(meta)}
+            </div>
           </div>
-        </div>
-      </Card>
+        </Card>
+      </Link>
     );
   }
 }
