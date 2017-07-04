@@ -11,10 +11,13 @@ describe('<Body />', () => {
     expect(result).toBe(151);
   });
 
-  test('filtering by search string', () => {
-    wrapper.setState({ searchTerm: 'char' });
-    const result = wrapper.find(Body).props().list.length;
-    expect(result).toBe(3);
+
+  describe('filtering', () => {
+    test('by search string', () => {
+      wrapper.setState({ searchTerm: 'char' });
+      const result = wrapper.find(Body).props().list.length;
+      expect(result).toBe(3);
+    });
   });
 
   describe('sorting', () => {
