@@ -11,39 +11,24 @@ class App extends Component {
     super(props);
     this.state = {
       searchTerm: "",
-      pokemon: [],
       collapsed: false,
       mode: 'inline',
       statSort: 'speed',
     }
   }
 
-  componentWillMount() {
-    fetch(`https://pokeapi.co/api/v2/generation/1/`)
-      .then((response) => {
-        response.json()
-          .then((data) => {
-            this.setState({pokemon: data.pokemon_species})
-          })
-      })
-  }
-
-  sortById = (a, b) => {
-    return metadata[a.name].id - metadata[b.name].id
-  }
-
   sortByStat = (stat) => (a, b) => {
-    const first = metadata[a.name].stats.find(s => s.stat.name === stat)
-    const second = metadata[b.name].stats.find(s => s.stat.name === stat)
+    const first = metadata[a].stats.find(s => s.stat.name === stat)
+    const second = metadata[b].stats.find(s => s.stat.name === stat)
     return second.base_stat - first.base_stat;
   }
 
   matchesSearch = (pokemon) => {
-    return pokemon.name.includes(this.state.searchTerm)
+    return pokemon.includes(this.state.searchTerm)
   }
 
   renderTile = (pokemon) => {
-    return <Tile name={pokemon.name} key={pokemon.name} />
+    return <Tile name={pokemon} key={pokemon} />
   }
 
   handleMenuClick = ({ item }) => {
@@ -58,6 +43,7 @@ class App extends Component {
   }
 
   render() {
+    const pokemonList = Object.keys(metadata);
     return (
       <Layout className="App">
         <Sider
@@ -129,7 +115,7 @@ class App extends Component {
           <Content style={{overflow: 'initial'}}>
             <div className="Body">
               {
-                this.state.pokemon
+                pokemonList
                   .filter(this.matchesSearch)
                   .sort(this.sortByStat(this.state.statSort))
                   .map(this.renderTile)

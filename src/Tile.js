@@ -45,7 +45,7 @@ class Tile extends React.Component {
     return(
       <Card
         title={this.capitalize(name)}
-        extra={<span>{metadata[name].id}</span>}
+        extra={metadata[name].id}
         style={{ width: 400, margin:'10px' }}
         bodyStyle={{display:'flex', justifyContent:'center'}}
         onClick={this.changeSpriteDir}
