@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import './App.css';
-import Tile from './Tile';
 import { Input, Layout, Menu, Icon } from 'antd';
 import metadata from 'pokemon-metadata';
+import './App.css';
+import Body from './Body';
+import { renderTile } from './helpers';
+
 const { Sider, Content } = Layout;
 const Search = Input.Search;
 
@@ -27,10 +29,6 @@ class App extends Component {
     return pokemon.includes(this.state.searchTerm)
   }
 
-  renderTile = (pokemon) => {
-    return <Tile name={pokemon} key={pokemon} />
-  }
-
   handleMenuClick = ({ item }) => {
     this.setState({ statSort: item.props.name });
   }
@@ -43,7 +41,10 @@ class App extends Component {
   }
 
   render() {
-    const pokemonList = Object.keys(metadata);
+    const filteredAndSortedPokemon = Object.keys(metadata)
+      .filter(this.matchesSearch)
+      .sort(this.sortByStat(this.state.statSort));
+
     return (
       <Layout className="App">
         <Sider
@@ -57,8 +58,8 @@ class App extends Component {
               placeholder="input search text"
               onSearch={value => this.setState({searchTerm: value})}
               onChange={e =>{
-                this.setState({searchTerm: e.target.value})}
-              }
+                this.setState({searchTerm: e.target.value})
+              }}
             />
           </div>
           <Menu
@@ -113,14 +114,10 @@ class App extends Component {
         </Sider>
         <Layout>
           <Content style={{overflow: 'initial'}}>
-            <div className="Body">
-              {
-                pokemonList
-                  .filter(this.matchesSearch)
-                  .sort(this.sortByStat(this.state.statSort))
-                  .map(this.renderTile)
-              }
-            </div>
+            <Body
+              list={filteredAndSortedPokemon}
+              renderTile={renderTile}
+            />
           </Content>
         </Layout>
       </Layout>
